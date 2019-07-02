@@ -40,9 +40,14 @@ class Home extends React.Component {
 
   addFishToOrder = (fishId) => {
     const fishOrderCopy = { ...this.state.fishOrder };
-    fishOrderCopy[fishId] = fishOrderCopy[fishId] + 1 || 1; // why we use bracket notation?
+    fishOrderCopy[fishId] = fishOrderCopy[fishId] + 1 || 1; // why do we use bracket notation?
     this.setState({ fishOrder: fishOrderCopy });
-    // console.error('fish id', fishId);
+  }
+
+  removeFromOrder = (fishId) => {
+    const fishOrderCopy = { ...this.state.fishorder };
+    delete fishOrderCopy[fishId];
+    this.setState({ fishOrder: fishOrderCopy });
   }
 
   render() {
@@ -57,6 +62,7 @@ class Home extends React.Component {
             <NewOrder
               fishes={fishes}
               fishOrder={fishOrder}
+              removeFromOrder={this.removeFromOrder}
             />
           </div>
           <div className="col">
