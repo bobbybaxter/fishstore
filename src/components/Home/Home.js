@@ -16,6 +16,7 @@ class Home extends React.Component {
     orders: [],
     fishes: [],
     fishOrder: {},
+    orderEditing: {},
   }
 
   getOrders = () => {
@@ -50,11 +51,10 @@ class Home extends React.Component {
     this.setState({ fishOrder: fishOrderCopy });
   }
 
-  saveNewOrder = (orderName) => {
+  makeNew = (orderName) => {
     const newOrder = { fishes: { ...this.state.fishOrder }, name: orderName };
     newOrder.dateTime = Date.now();
     newOrder.uid = firebase.auth().currentUser.uid;
-    console.error('newOrder', newOrder);
     ordersData.postOrders(newOrder)
       .then(() => {
         this.setState({ fishorder: {} });
@@ -63,8 +63,41 @@ class Home extends React.Component {
       .catch(err => console.error('didnt post order', err));
   }
 
+  updateExisting = (orderName) => {
+    const updateOrder = { ...this.state.orderEditing };
+    const orderId = updateOrder.id;
+    updateOrder.fishes = this.state.fishOrder;
+    updateOrder.name = orderName;
+    delete updateOrder.id;
+    ordersData.putOrder(orderId, updateOrder)
+      .then(() => {
+        this.setState({ fishOrder: {}, orderEditing: {} });
+        this.getOrders();
+      })
+      .catch(err => console.error('didnt update order', err));
+  }
+
+  saveNewOrder = (orderName) => {
+    if (Object.keys(this.state.orderEditing).length > 0) {
+      this.updateExisting(orderName);
+    } else {
+      this.makeNew(orderName);
+    }
+  }
+
+  selectOrderToEdit = (orderId) => {
+    const selectedOrder = this.state.orders.find(order => order.id === orderId);
+    this.setState({ fishOrder: selectedOrder.fishes, orderEditing: selectedOrder });
+  }
+
   render() {
-    const { fishes, orders, fishOrder } = this.state;
+    const {
+      fishes,
+      orders,
+      fishOrder,
+      orderEditing,
+    } = this.state;
+
     return (
       <div className="Home">
         <div className="row">
@@ -77,10 +110,15 @@ class Home extends React.Component {
               fishOrder={fishOrder}
               removeFromOrder={this.removeFromOrder}
               saveNewOrder={this.saveNewOrder}
+              orderEditing={orderEditing}
             />
           </div>
           <div className="col">
-            <Orders orders={orders} deleteOrder={this.deleteOrder}/>
+            <Orders
+              orders={orders}
+              deleteOrder={this.deleteOrder}
+              selectOrderToEdit={this.selectOrderToEdit}
+            />
           </div>
         </div>
       </div>
