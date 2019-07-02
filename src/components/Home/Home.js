@@ -15,6 +15,7 @@ class Home extends React.Component {
   state = {
     orders: [],
     fishes: [],
+    fishOrder: {},
   }
 
   getOrders = () => {
@@ -37,16 +38,46 @@ class Home extends React.Component {
       .catch(err => console.error('did not delete', err));
   }
 
+  addFishToOrder = (fishId) => {
+    const fishOrderCopy = { ...this.state.fishOrder };
+    fishOrderCopy[fishId] = fishOrderCopy[fishId] + 1 || 1; // why do we use bracket notation?
+    this.setState({ fishOrder: fishOrderCopy });
+  }
+
+  removeFromOrder = (fishId) => {
+    const fishOrderCopy = { ...this.state.fishorder };
+    delete fishOrderCopy[fishId];
+    this.setState({ fishOrder: fishOrderCopy });
+  }
+
+  saveNewOrder = (orderName) => {
+    const newOrder = { fishes: { ...this.state.fishOrder }, name: orderName };
+    newOrder.dateTime = Date.now();
+    newOrder.uid = firebase.auth().currentUser.uid;
+    console.error('newOrder', newOrder);
+    ordersData.postOrders(newOrder)
+      .then(() => {
+        this.setState({ fishorder: {} });
+        this.getOrders();
+      })
+      .catch(err => console.error('didnt post order', err));
+  }
+
   render() {
-    const { fishes, orders } = this.state;
+    const { fishes, orders, fishOrder } = this.state;
     return (
       <div className="Home">
         <div className="row">
           <div className="col">
-            <Inventory fishes={fishes}/>
+            <Inventory fishes={fishes} addFishToOrder={this.addFishToOrder}/>
           </div>
           <div className="col">
-            <NewOrder />
+            <NewOrder
+              fishes={fishes}
+              fishOrder={fishOrder}
+              removeFromOrder={this.removeFromOrder}
+              saveNewOrder={this.saveNewOrder}
+            />
           </div>
           <div className="col">
             <Orders orders={orders} deleteOrder={this.deleteOrder}/>
