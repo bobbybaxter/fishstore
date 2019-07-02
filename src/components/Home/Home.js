@@ -50,6 +50,19 @@ class Home extends React.Component {
     this.setState({ fishOrder: fishOrderCopy });
   }
 
+  saveNewOrder = (orderName) => {
+    const newOrder = { fishes: { ...this.state.fishOrder }, name: orderName };
+    newOrder.dateTime = Date.now();
+    newOrder.uid = firebase.auth().currentUser.uid;
+    console.error('newOrder', newOrder);
+    ordersData.postOrders(newOrder)
+      .then(() => {
+        this.setState({ fishorder: {} });
+        this.getOrders();
+      })
+      .catch(err => console.error('didnt post order', err));
+  }
+
   render() {
     const { fishes, orders, fishOrder } = this.state;
     return (
@@ -63,6 +76,7 @@ class Home extends React.Component {
               fishes={fishes}
               fishOrder={fishOrder}
               removeFromOrder={this.removeFromOrder}
+              saveNewOrder={this.saveNewOrder}
             />
           </div>
           <div className="col">
