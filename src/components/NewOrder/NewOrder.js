@@ -9,6 +9,7 @@ class NewOrder extends React.Component {
   }
 
   componentWillUpdate(nextProps) { // takes nextProps and nextState
+    // this is used when the props from another component change and you need them updated here!
     // this updates the state
     // fires right before the render of the component, when state changes
     if (nextProps.orderEditing !== this.props.orderEditing && nextProps.orderEditing.name) {
