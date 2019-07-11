@@ -1,7 +1,7 @@
 # Catch of the Day
 
 ## Screenshots
-![image of catch of the day site](https://raw.githubusercontent.com/bobbybaxter/fishstore/master/src/images/screenshot.png)
+![image of catch of the day site](https://raw.githubusercontent.com/bobbybaxter/fishstore/master/src/assets/screenshot.png)
 
 ## Installation Instructions
 - Clone down this repo
