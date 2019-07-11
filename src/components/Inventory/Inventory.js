@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import fishShapes from '../../helpers/propz/fishShapes';
-import Fish from '../Fish/Fish';
 
+import Fish from '../Fish/Fish';
 import './Inventory.scss';
 
 class Inventory extends React.Component {
