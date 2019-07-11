@@ -1,4 +1,5 @@
 # Catch of the Day
+A seafood store app where a user can add, edit, and delete orders from a seafood restaurant. 
 
 ## Screenshots
 ![image of catch of the day site](https://raw.githubusercontent.com/bobbybaxter/fishstore/master/src/assets/screenshot.png)
