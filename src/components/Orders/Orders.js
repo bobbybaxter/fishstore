@@ -10,6 +10,7 @@ class Orders extends React.Component {
   static propTypes = {
     orders: PropTypes.arrayOf(orderShapes.orderShape),
     deleteOrder: PropTypes.func.isRequired,
+    selectOrderToEdit: PropTypes.func.isRequired,
   }
 
   render() {

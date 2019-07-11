@@ -41,7 +41,7 @@ class Home extends React.Component {
 
   addFishToOrder = (fishId) => {
     const fishOrderCopy = { ...this.state.fishOrder };
-    fishOrderCopy[fishId] = fishOrderCopy[fishId] + 1 || 1; // why do we use bracket notation?
+    fishOrderCopy[fishId] = fishOrderCopy[fishId] + 1 || 1;
     this.setState({ fishOrder: fishOrderCopy });
   }
 
@@ -105,6 +105,21 @@ class Home extends React.Component {
             <Inventory fishes={fishes} addFishToOrder={this.addFishToOrder}/>
           </div>
           <div className="col">
+            <div className="menu">
+              <header className="top">
+                <h1>
+                  Catch
+                  <span className="ofThe">
+                    <span className="of">Of</span>
+                    <span className="the">The</span>
+                  </span>
+                  Day
+                </h1>
+                <h3 className="tagline">
+                  <span>Fresh Seafood Market</span>
+                </h3>
+              </header>
+            </div>
             <NewOrder
               fishes={fishes}
               fishOrder={fishOrder}
